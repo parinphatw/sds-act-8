@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  todo-service:
+    build: ./todo
+    container_name: todo-service
+    networks:
+      - todo-net
+  webapp:
+    build: "./todo-webapp"
+    container_name: webapp
+    stdin_open: true
+    ports:
+      - 3000:3000
+    networks:
+      - todo-net
+  notification-service:
+    build: "./todo-notification"
+    container_name: notification-service
+    networks:
+      - todo-net
+  redis:
+    image: "redis"
+    container_name: redis
+    networks:
+      - todo-net
+  nginx:
+    build: "./nginx"
+    container_name: config-nginx-c
+    ports:
+      - 8000:8000
+    networks:
+      - todo-net
+
+networks:
+  todo-net: {}
